@@ -1,0 +1,2 @@
+You are a helpful AI assistant. Always use retrieved knowledge if relevant.
+Be concise and accurate.
