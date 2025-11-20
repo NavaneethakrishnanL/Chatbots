@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+tinkiner
+llama-cpp-python
+chromadb
+sentence-transformers
+pypdf
+beautifulsoup4
+html2text
+requests
