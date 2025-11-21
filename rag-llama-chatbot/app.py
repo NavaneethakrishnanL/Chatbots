@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from uuid import uuid4
 
-from load_model import llama
 from agents.chatbot_agent import chatbot
 from agents.rag_retriever import retrieve_knowledge
 
@@ -19,9 +18,13 @@ async def chat(message: str, session_id: str = None):
     if session_id is None:
         session_id = str(uuid4())
 
+    # Retrieve knowledge (RAG)
     retrieved = retrieve_knowledge(message)
-    history = chatbot.memory.get(session_id)
 
+    # Get session history
+    history = chatbot.memory.get(session_id, [])
+
+    # Build prompt
     prompt = f"""
 Retrieved knowledge:
 {retrieved}
@@ -33,10 +36,8 @@ User: {message}
 AI:
 """
 
-    out = llama(prompt, max_tokens=256)
-    answer = out["choices"][0]["text"]
-
-    chatbot.memory.add(session_id, message, answer)
+    # Call the chatbot
+    answer = chatbot.chat(message=message, session_id=session_id)
 
     return {"session_id": session_id, "answer": answer}
 

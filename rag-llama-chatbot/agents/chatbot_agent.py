@@ -1,11 +1,11 @@
-from tinkiner import Agent
-from memory.session_memory import session_memory
+from .agent import Agent
+from load_model import llm
 
 system_prompt = open("prompts/system.txt").read()
 
 chatbot = Agent(
     name="rag_chatbot",
-    llm="llama.cpp",
+    llm=llm,
     system_prompt=system_prompt,
-    memory=session_memory
+    memory={}  # session-based memory
 )
